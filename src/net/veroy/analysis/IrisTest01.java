@@ -12,6 +12,7 @@ import org.deri.iris.api.IKnowledgeBase;
 import org.deri.iris.api.basics.IQuery;
 import org.deri.iris.compiler.Parser;
 import org.deri.iris.compiler.ParserException;
+import org.deri.iris.storage.IRelation;
 /**
  * @author rveroy
  *
@@ -22,7 +23,6 @@ public class IrisTest01 {
      * @param args
      */
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         Configuration config = KnowledgeBaseFactory.getDefaultConfiguration();
         Parser parser = new Parser();
         IKnowledgeBase kbase;
@@ -51,12 +51,16 @@ public class IrisTest01 {
         List<IQuery> queryList = parser.getQueries();
         for (Iterator<IQuery> iter = queryList.iterator(); iter.hasNext(); ) {
             IQuery query = iter.next();
+            IRelation result;
             try {
-                kbase.execute(query);
+                result = kbase.execute(query);
             } catch (EvaluationException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return;
+            }
+            for (int i = 0; i < result.size(); ++i) {
+                System.out.println(result.get(i).toString());
             }
         }
     }
